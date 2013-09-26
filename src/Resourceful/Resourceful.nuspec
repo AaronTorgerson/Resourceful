@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<package >
+  <metadata>
+    <id>Resourceful</id>
+    <version>0.1</version>
+    <title>$title$</title>
+    <authors>Aaron Torgerson</authors>
+    <owners>Aaron Torgerson</owners>
+    <licenseUrl>https://github.com/AaronTorgerson/Resourceful/blob/master/LICENSE</licenseUrl>
+    <projectUrl>https://github.com/AaronTorgerson/Resourceful</projectUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>A poorly-named library to help you serialize your models with hypermedia links.</description>
+    <copyright>Copyright 2013</copyright>
+    <tags>REST Hypermedia Mapper</tags>
+  </metadata>
+</package>
