@@ -45,15 +45,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="MappingASimpleClass.cs" />
+    <Compile Include="Acceptance\MappingAClassWithAChildThatIsAlsoMappedAsAResource.cs" />
+    <Compile Include="Acceptance\MappingASimpleClass.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="PropertyInspector.cs" />
     <Compile Include="PropertyInspectorTests.cs" />
-    <Compile Include="ResourceMapper.cs" />
-    <Compile Include="ResourceMapping.cs" />
-    <Compile Include="ResourceProperty.cs" />
-    <Compile Include="TypeMapping.cs" />
-    <Compile Include="UriTemplate.cs" />
     <Compile Include="UriTemplateTests.cs" />
   </ItemGroup>
   <ItemGroup>
