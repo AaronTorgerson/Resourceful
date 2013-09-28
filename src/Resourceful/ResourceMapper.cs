@@ -21,7 +21,7 @@ namespace Resourceful
 
 			foreach (var property in typeMapping.GetProperties(source))
 			{
-				dest.Add(property.Name, property.Value);
+				dest.Add(property.Name, GetValue(property));
 			}
 
 			if (resourceMapping != null)
@@ -31,6 +31,11 @@ namespace Resourceful
 			}
 
 			return dest;
+		}
+
+		private static object GetValue(Property property)
+		{
+			return PropertyMapper.Map(property);
 		}
 
 		private static ResourceMapping GetResourceMappingOrNull(Type sourceType)

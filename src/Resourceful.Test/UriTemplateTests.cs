@@ -6,7 +6,7 @@ namespace Resourceful.Test
 	[TestFixture]
 	public class UriTemplateTests
 	{
-		private static string FormatUri(string uriTemplate, IEnumerable<ResourceProperty> resourceProperties)
+		private static string FormatUri(string uriTemplate, IEnumerable<Property> resourceProperties)
 		{
 			var template = new UriTemplate(uriTemplate);
 			var uri = template.GenerateUri(resourceProperties);
@@ -16,7 +16,7 @@ namespace Resourceful.Test
 		[Test]
 		public void UriWithNoPlaceholdersFormatsAsIs()
 		{
-			var uri = FormatUri("/path/to/the/moon", new ResourceProperty[0]);
+			var uri = FormatUri("/path/to/the/moon", new Property[0]);
 			Assert.That(uri, Is.EqualTo("/path/to/the/moon"));
 		}
 
@@ -25,7 +25,7 @@ namespace Resourceful.Test
 		{
 			var uri = FormatUri("/things/{Id}/name", new[]
 				{
-					new ResourceProperty("Id", typeof (int), 1)
+					new Property("Id", typeof (int), 1)
 				});
 
 			Assert.That(uri, Is.EqualTo("/things/1/name"));
@@ -36,7 +36,7 @@ namespace Resourceful.Test
 		{
 			var exception = Assert.Throws<ResourceUriFormattingException>(() =>
 			{
-				FormatUri("/things/{Name}/name", new ResourceProperty[0]);
+				FormatUri("/things/{Name}/name", new Property[0]);
 			});
 
 			Assert.That(exception.Message, Is.EqualTo("Uri template '/things/{Name}/name' requires that resource has property 'Name', but it was not found."));

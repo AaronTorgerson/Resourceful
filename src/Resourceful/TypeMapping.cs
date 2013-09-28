@@ -16,10 +16,10 @@ namespace Resourceful
 			PublicProperties = PropertyInspector.GetProperties(type);
 		}
 
-		public IEnumerable<ResourceProperty> GetProperties(object source)
+		public IEnumerable<Property> GetProperties(object source)
 		{
 			return PublicProperties
-				.Select(p => new ResourceProperty(p.Name, p.PropertyType, p.GetValue(source)))
+				.Select(p => new Property(p.Name, p.PropertyType, p.GetValue(source)))
 				.ToList();
 		}
 	}

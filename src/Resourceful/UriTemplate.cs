@@ -32,7 +32,7 @@ namespace Resourceful
 			this.uriTemplateString = uriTemplateString;
 		}
 
-		public string GenerateUri(IEnumerable<ResourceProperty> resourceProperties)
+		public string GenerateUri(IEnumerable<Property> resourceProperties)
 		{
 			var properties = resourceProperties.ToList();
 			var insertions = new List<object>();

@@ -1,4 +1,5 @@
-﻿using NUnit.Framework;
+﻿using System.Collections.Generic;
+using NUnit.Framework;
 
 namespace Resourceful.Test.Acceptance
 {
@@ -17,7 +18,7 @@ namespace Resourceful.Test.Acceptance
 			Assert.That(result.Child.Name, Is.EqualTo("Foo"));
 		}
 
-		[Test, Ignore("TODO")]
+		[Test]
 		public void MappingWithNestedMappedResource()
 		{
 			ResourceMapper.CreateMapping<Complex>("/complex/{Id}");
@@ -27,7 +28,38 @@ namespace Resourceful.Test.Acceptance
 
 			Assert.That(result._Href, Is.EqualTo("/complex/1"));
 			Assert.That(result._Relationships, Is.Empty);
-			Assert.That(result.Child.Href, Is.EqualTo("/simple/Foo"));
+			Assert.That(result.Child._Href, Is.EqualTo("/simple/Foo"));
+		}
+
+		[Test]
+		public void MappingObjectWithEnumerableOfMappedResource()
+		{
+			ResourceMapper.CreateMapping<Simple>("/simple/{Name}");
+
+			var result = ResourceMapper.Map(
+				new
+				{
+					Things = new []
+					{
+						new Simple {Name = "foo"}
+					}
+				});
+
+			Assert.That(result.Things[0]._Href, Is.EqualTo("/simple/foo"));
+		}
+
+		[Test]
+		public void MappingAnEnumerableOfMappedResources()
+		{
+			ResourceMapper.CreateMapping<Simple>("/simple/{Name}");
+
+			var result = ResourceMapper.Map(
+				new []
+				{
+					new Simple {Name = "foo"}
+				});
+
+			Assert.That(result[0]._Href, Is.EqualTo("/simple/foo"));
 		}
 
 		private class Complex

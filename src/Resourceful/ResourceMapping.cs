@@ -56,7 +56,7 @@ namespace Resourceful
 		public string Rel { get; set; }
 		public UriTemplate HrefTemplate { get; set; }
 
-		public ResourceLink GenerateLink(IEnumerable<ResourceProperty> resourceProperties)
+		public ResourceLink GenerateLink(IEnumerable<Property> resourceProperties)
 		{
 			return new ResourceLink
 			{
