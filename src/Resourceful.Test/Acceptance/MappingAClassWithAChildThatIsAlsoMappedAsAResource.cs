@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using NUnit.Framework;
+﻿using NUnit.Framework;
 
 namespace Resourceful.Test.Acceptance
 {
@@ -61,6 +60,9 @@ namespace Resourceful.Test.Acceptance
 
 			Assert.That(result[0]._Href, Is.EqualTo("/simple/foo"));
 		}
+
+		//Dictionary
+		//Domain List
 
 		private class Complex
 		{

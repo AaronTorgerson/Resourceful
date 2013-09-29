@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Dynamic;
+using Resourceful.Extensions;
 
 namespace Resourceful
 {
@@ -12,16 +14,31 @@ namespace Resourceful
 		public static dynamic Map(object source)
 		{
 			Type sourceType = source.GetType();
+			object result = source;
+
+			if (sourceType.IsContainerCollection())
+			{
+				result = MapCollection(source);
+			}
+			else if (sourceType.IsNonFrameworkSingleValueType())
+			{
+				result = MapSingleValue(source, sourceType);
+			}
+
+			return result;
+		}
+
+		private static object MapSingleValue(object source, Type sourceType)
+		{
+			IDictionary<string, object> dest = new ExpandoObject();
 			ResourceMapping resourceMapping = GetResourceMappingOrNull(sourceType);
 			TypeMapping typeMapping = resourceMapping != null
- 				? resourceMapping.TypeMapping
+				? resourceMapping.TypeMapping
 				: GetOrCreateTypeMapping(sourceType);
-
-			IDictionary<string, object> dest = new ExpandoObject();
 
 			foreach (var property in typeMapping.GetProperties(source))
 			{
-				dest.Add(property.Name, GetValue(property));
+				dest.Add(property.Name, Map(property.Value));
 			}
 
 			if (resourceMapping != null)
@@ -33,9 +50,16 @@ namespace Resourceful
 			return dest;
 		}
 
-		private static object GetValue(Property property)
+		private static object MapCollection(object source)
 		{
-			return PropertyMapper.Map(property);
+			var items = new ArrayList();
+			var enumerable = (IEnumerable) source;
+			foreach (var item in enumerable)
+			{
+				items.Add(Map(item));
+			}
+
+			return items;
 		}
 
 		private static ResourceMapping GetResourceMappingOrNull(Type sourceType)

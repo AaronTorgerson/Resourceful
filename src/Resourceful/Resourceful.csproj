@@ -39,12 +39,16 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Extensions\TypeExtensions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="PropertyInspector.cs" />
     <Compile Include="PropertyMapper.cs" />
+    <Compile Include="ResourceLink.cs" />
+    <Compile Include="ResourceLinkTemplate.cs" />
     <Compile Include="ResourceMapper.cs" />
     <Compile Include="ResourceMapping.cs" />
     <Compile Include="Property.cs" />
+    <Compile Include="TypeMapper.cs" />
     <Compile Include="TypeMapping.cs" />
     <Compile Include="UriTemplate.cs" />
   </ItemGroup>

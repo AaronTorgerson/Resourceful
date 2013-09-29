@@ -6,7 +6,7 @@ namespace Resourceful
 	public class ResourceMapping
 	{
 		private readonly List<ResourceLinkTemplate>  linkTemplates;
-		private UriTemplate hrefUriTemplate;
+		private readonly UriTemplate hrefUriTemplate;
 
 		public ResourceMapping(TypeMapping typeMapping, string hrefUriPattern)
 		{
@@ -36,33 +36,6 @@ namespace Resourceful
 			return linkTemplates
 				.Select(t => t.GenerateLink(resourceProperties))
 				.ToList();
-		}
-	}
-
-	public class ResourceLink
-	{
-		public string Rel { get; set; }
-		public string Href { get; set; }
-	}
-
-	public class ResourceLinkTemplate
-	{
-		public ResourceLinkTemplate(string relationship, string hrefTemplate)
-		{
-			Rel = relationship;
-			HrefTemplate = new UriTemplate(hrefTemplate);
-		}
-
-		public string Rel { get; set; }
-		public UriTemplate HrefTemplate { get; set; }
-
-		public ResourceLink GenerateLink(IEnumerable<Property> resourceProperties)
-		{
-			return new ResourceLink
-			{
-				Rel = Rel,
-				Href = HrefTemplate.GenerateUri(resourceProperties)
-			};
 		}
 	}
 }

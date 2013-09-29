@@ -1,5 +1,5 @@
 ﻿using System;
-using System.Collections;
+using Resourceful.Extensions;
 
 namespace Resourceful
 {
@@ -18,20 +18,12 @@ namespace Resourceful
 
 		public bool IsMappableEnumerable
 		{
-			get
-			{
-				return typeof (IEnumerable).IsAssignableFrom(Type)
-				       && Type != typeof (string);
-			}
+			get { return Type.IsContainerCollection(); }
 		}
 
 		public bool IsMappableSingleValue
 		{
-			get
-			{
-				return !Type.Namespace.StartsWith("System")
-				       && !Type.IsPrimitive;
-			}
+			get { return Type.IsNonFrameworkSingleValueType(); }
 		}
 	}
 }
