@@ -13,6 +13,8 @@ namespace Resourceful
 
 		public static dynamic Map(object source)
 		{
+			if (source == null) return null;
+
 			Type sourceType = source.GetType();
 			object result = source;
 

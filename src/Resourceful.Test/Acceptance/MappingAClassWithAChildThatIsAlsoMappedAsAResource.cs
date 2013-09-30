@@ -1,4 +1,5 @@
-﻿using NUnit.Framework;
+﻿using System.Collections.Generic;
+using NUnit.Framework;
 
 namespace Resourceful.Test.Acceptance
 {
@@ -53,7 +54,7 @@ namespace Resourceful.Test.Acceptance
 			ResourceMapper.CreateMapping<Simple>("/simple/{Name}");
 
 			var result = ResourceMapper.Map(
-				new []
+				new List<Simple>
 				{
 					new Simple {Name = "foo"}
 				});
@@ -61,8 +62,23 @@ namespace Resourceful.Test.Acceptance
 			Assert.That(result[0]._Href, Is.EqualTo("/simple/foo"));
 		}
 
+		[Test]
+		public void MappingAThingWithANullReference()
+		{
+			var thing = new Simple {Name = null};
+
+			var result = ResourceMapper.Map(thing);
+
+			Assert.That(((string)result.Name), Is.Null);
+		}
+
 		//Dictionary
 		//Domain List
+		//Map List<T> as a Resource
+		//Let Map take arbitrary name/values for URIs
+		//Add QueryBuilder for complex query string values.
+		//Add Name resolver to ResourceMapping so that uri names can be resolved from child objects, etc.
+
 
 		private class Complex
 		{
