@@ -47,8 +47,12 @@
   <ItemGroup>
     <Compile Include="Acceptance\MappingAClassWithAChildThatIsAlsoMappedAsAResource.cs" />
     <Compile Include="Acceptance\MappingASimpleClass.cs" />
+    <Compile Include="Acceptance\MappingEnumerables.cs" />
+    <Compile Include="Acceptance\MappingSpecialCases.cs" />
+    <Compile Include="Acceptance\MappingWithAUriNameResolver.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="PropertyInspectorTests.cs" />
+    <Compile Include="SampleTypes.cs" />
     <Compile Include="UriTemplateTests.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -20,7 +20,7 @@ namespace Resourceful
 			originalTemplate = uriTemplateString;
 			placeholders = new List<string>();
 
-			MatchCollection matches = Regex.Matches(uriTemplateString, "{(.+)}");
+			MatchCollection matches = Regex.Matches(uriTemplateString, "{(.+?)}");
 			for (int i = 0; i < matches.Count; i++)
 			{
 				Match match = matches[i];

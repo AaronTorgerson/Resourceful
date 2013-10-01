@@ -11,7 +11,7 @@ namespace Resourceful
 		private static readonly Dictionary<Type, ResourceMapping> resourceMappings = new Dictionary<Type, ResourceMapping>();
 		private static readonly Dictionary<Type, TypeMapping> typeMappings = new Dictionary<Type, TypeMapping>();
 
-		public static dynamic Map(object source)
+		public static dynamic Map(object source, Dictionary<string, object> dictionary = null)
 		{
 			if (source == null) return null;
 
