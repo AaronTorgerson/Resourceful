@@ -1,28 +1,25 @@
 ﻿using System.Collections.Generic;
+using System.Dynamic;
 using System.Linq;
+using Resourceful.UriFormatting;
 
 namespace Resourceful
 {
 	public class ResourceMapping
 	{
 		private readonly List<ResourceLinkTemplate>  linkTemplates;
-		private readonly UriTemplate hrefUriTemplate;
+		private readonly ResourceLinkTemplate selfLinkTemplate;
+		private readonly List<QueryParamMapper> queryParamMappers;
 
 		public ResourceMapping(TypeMapping typeMapping, string hrefUriPattern)
 		{
 			TypeMapping = typeMapping;
-			HrefUriPattern = hrefUriPattern;
-			hrefUriTemplate = new UriTemplate(hrefUriPattern);
+			selfLinkTemplate = new ResourceLinkTemplate("Self", hrefUriPattern);
 			linkTemplates = new List<ResourceLinkTemplate>();
+			queryParamMappers = new List<QueryParamMapper>();
 		}
 
-		public string HrefUriPattern { get; set; }
 		public TypeMapping TypeMapping { get; set; }
-
-		public string GetHref(object source)
-		{
-			return hrefUriTemplate.GenerateUri(TypeMapping.GetProperties(source));
-		}
 
 		public ResourceMapping AddLink(string relationship, string href)
 		{
@@ -30,12 +27,28 @@ namespace Resourceful
 			return this;
 		}
 
-		public IEnumerable<ResourceLink> GetLinks(object source)
+		public dynamic GetLinks(object source, IEnumerable<Property> additionalProperties = null)
 		{
-			var resourceProperties = TypeMapping.GetProperties(source);
-			return linkTemplates
-				.Select(t => t.GenerateLink(resourceProperties))
-				.ToList();
+			var queryParams = queryParamMappers.SelectMany(b => b.BuildQueryParams(source));
+			additionalProperties = (additionalProperties ?? new List<Property>()).ToList();
+			var properties = TypeMapping.GetProperties(source).Concat(additionalProperties).ToArray();
+
+			IDictionary<string, object> links = new ExpandoObject();
+			var selfLink = selfLinkTemplate.GenerateLink(properties, queryParams);
+			links[selfLink.Rel] = selfLink.Href;
+			
+			foreach (var t in linkTemplates)
+			{
+				var link = t.GenerateLink(properties);
+				links[link.Rel] = link.Href;
+			}
+			
+			return links;
+		}
+
+		public void AddSelfUriQueryParameterMapper(QueryParamMapper queryParamMapper)
+		{
+			queryParamMappers.Add(queryParamMapper);
 		}
 	}
 }

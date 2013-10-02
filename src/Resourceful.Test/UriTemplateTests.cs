@@ -1,15 +1,18 @@
 ﻿using System.Collections.Generic;
 using NUnit.Framework;
+using Resourceful.UriFormatting;
 
 namespace Resourceful.Test
 {
 	[TestFixture]
 	public class UriTemplateTests
 	{
-		private static string FormatUri(string uriTemplate, IEnumerable<Property> resourceProperties)
+		private static string FormatUri(string uriTemplate, 
+			IEnumerable<Property> resourceProperties, 
+			IEnumerable<QueryParam> queryParams = null)
 		{
 			var template = new UriTemplate(uriTemplate);
-			var uri = template.GenerateUri(resourceProperties);
+			var uri = template.GenerateUri(resourceProperties, queryParams);
 			return uri;
 		}
 
@@ -40,6 +43,17 @@ namespace Resourceful.Test
 			});
 
 			Assert.That(exception.Message, Is.EqualTo("Uri template '/things/{Name}/name' requires that resource has property 'Name', but it was not found."));
+		}
+
+		[Test]
+		public void QueryParameterNamesAndValuesAreEscaped()
+		{
+			var uri = FormatUri("/things", new Property[0], new[]
+			{
+				new QueryParam("this param", "needs to be escaped")
+			});
+
+			Assert.That(uri, Is.EqualTo("/things?this+param=needs+to+be+escaped"));
 		}
 
 		[Test, Ignore("TODO")]

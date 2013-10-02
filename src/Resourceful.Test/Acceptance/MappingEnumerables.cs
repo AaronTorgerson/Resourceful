@@ -20,7 +20,7 @@ namespace Resourceful.Test.Acceptance
 					}
 				});
 
-			Assert.That(result.Things[0]._Href, Is.EqualTo("/simple/foo"));
+			Assert.That(result.Things[0]._Relationships.Self, Is.EqualTo("/simple/foo"));
 		}
 
 		[Test]
@@ -34,7 +34,7 @@ namespace Resourceful.Test.Acceptance
 					new SampleTypes.Simple {Name = "foo"}
 				});
 
-			Assert.That(result[0]._Href, Is.EqualTo("/simple/foo"));
+			Assert.That(result[0]._Relationships.Self, Is.EqualTo("/simple/foo"));
 		}
 	}
 }

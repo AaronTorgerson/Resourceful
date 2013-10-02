@@ -8,22 +8,21 @@ namespace Resourceful.Test.Acceptance
 		[Test]
 		public void MappingWithoutNestedResource()
 		{
-			ResourceMapper.CreateMapping<SampleTypes.Complex>("/complex/{Id}");
+			ResourceMapper.CreateMapping<SampleTypes.LessSimple>("/complex/{Id}");
 
-			var result = ResourceMapper.Map(new SampleTypes.Complex {Id = 1, Child = new SampleTypes.Simple {Name = "Foo"}});
+			var result = ResourceMapper.Map(new SampleTypes.LessSimple {Id = 1, Child = new SampleTypes.Simple {Name = "Foo"}});
 
-			Assert.That(result._Href, Is.EqualTo("/complex/1"));
-			Assert.That(result._Relationships, Is.Empty);
+			Assert.That(result._Relationships.Self, Is.EqualTo("/complex/1"));
 			Assert.That(result.Child.Name, Is.EqualTo("Foo"));
 		}
 
 		[Test]
 		public void MappingWithNestedMappedResource()
 		{
-			ResourceMapper.CreateMapping<SampleTypes.Complex>("/complex/{Id}");
+			ResourceMapper.CreateMapping<SampleTypes.LessSimple>("/complex/{Id}");
 			ResourceMapper.CreateMapping<SampleTypes.Simple>("/simple/{Name}");
 
-			var source = new SampleTypes.Complex
+			var source = new SampleTypes.LessSimple
 			{
 				Id = 1, 
 				Child = new SampleTypes.Simple {Name = "Foo"}
@@ -31,9 +30,8 @@ namespace Resourceful.Test.Acceptance
 
 			var result = ResourceMapper.Map(source);
 
-			Assert.That(result._Href, Is.EqualTo("/complex/1"));
-			Assert.That(result._Relationships, Is.Empty);
-			Assert.That(result.Child._Href, Is.EqualTo("/simple/Foo"));
+			Assert.That(result._Relationships.Self, Is.EqualTo("/complex/1"));
+			Assert.That(result.Child._Relationships.Self, Is.EqualTo("/simple/Foo"));
 		}
 
 		//Dictionary

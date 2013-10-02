@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using NUnit.Framework;
+﻿using NUnit.Framework;
 
 namespace Resourceful.Test.Acceptance
 {
@@ -7,14 +6,14 @@ namespace Resourceful.Test.Acceptance
 	public class MappingWithAUriNameResolver
 	{
 		[Test]
-		public void Thing()
+		public void UriReplacementUponMap()
 		{
 			ResourceMapper.CreateMapping<SampleTypes.Simple>("/things/{ExternalName}/{Name}");
 
 			var thing = new SampleTypes.Simple {Name = "foo"};
-			var result = ResourceMapper.Map(thing, new Dictionary<string, object> {{"ExternalName", "baz"}});
+			var result = ResourceMapper.Map(thing, opt => opt.WithUriReplacement("ExternalName", "baz"));
 
-			Assert.That(result._Href, Is.EqualTo("/things/baz/foo"));
+			Assert.That(result._Relationships.Self, Is.EqualTo("/things/baz/foo"));
 		}
 	}
 }

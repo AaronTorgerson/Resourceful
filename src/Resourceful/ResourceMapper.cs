@@ -11,7 +11,20 @@ namespace Resourceful
 		private static readonly Dictionary<Type, ResourceMapping> resourceMappings = new Dictionary<Type, ResourceMapping>();
 		private static readonly Dictionary<Type, TypeMapping> typeMappings = new Dictionary<Type, TypeMapping>();
 
-		public static dynamic Map(object source, Dictionary<string, object> dictionary = null)
+		public static dynamic Map(object source, Action<MappingOptions> mappingOptions)
+		{
+			var options = new MappingOptions();
+			mappingOptions.Invoke(options);
+
+			return MapInternal(source, options);
+		}
+
+		public static dynamic Map(object source)
+		{
+			return MapInternal(source, new MappingOptions());
+		}
+
+		private static dynamic MapInternal(object source, MappingOptions options)
 		{
 			if (source == null) return null;
 
@@ -24,13 +37,13 @@ namespace Resourceful
 			}
 			else if (sourceType.IsNonFrameworkSingleValueType())
 			{
-				result = MapSingleValue(source, sourceType);
+				result = MapSingleValue(source, sourceType, options);
 			}
 
 			return result;
 		}
 
-		private static object MapSingleValue(object source, Type sourceType)
+		private static object MapSingleValue(object source, Type sourceType, MappingOptions options)
 		{
 			IDictionary<string, object> dest = new ExpandoObject();
 			ResourceMapping resourceMapping = GetResourceMappingOrNull(sourceType);
@@ -45,8 +58,7 @@ namespace Resourceful
 
 			if (resourceMapping != null)
 			{
-				dest.Add("_Href", resourceMapping.GetHref(source));
-				dest.Add("_Relationships", resourceMapping.GetLinks(source));
+				dest.Add("_Relationships", resourceMapping.GetLinks(source, options.GetAditionalProperties()));
 			}
 
 			return dest;
@@ -96,6 +108,16 @@ namespace Resourceful
 		{
 			resourceMappings.Clear();
 			typeMappings.Clear();
+		}
+
+		public static ResourceMapping CreateMapping<T>(string hrefUriPattern, Action<QueryParameterMapperBuilder<T>> mapQueryParams)
+		{
+			var mapping = CreateMapping<T>(hrefUriPattern);
+			var queryParamMapperBuilder = new QueryParameterMapperBuilder<T>();
+			mapQueryParams.Invoke(queryParamMapperBuilder);
+			var queryParamMappers = queryParamMapperBuilder.GetMappers();
+			queryParamMappers.ForEach(mapping.AddSelfUriQueryParameterMapper);
+			return mapping;
 		}
 	}
 }

@@ -45,7 +45,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Acceptance\AcceptanceTestSetUpFixture.cs" />
     <Compile Include="Acceptance\MappingAClassWithAChildThatIsAlsoMappedAsAResource.cs" />
+    <Compile Include="Acceptance\MappingAClassWithHrefQueryBuilder.cs" />
     <Compile Include="Acceptance\MappingASimpleClass.cs" />
     <Compile Include="Acceptance\MappingEnumerables.cs" />
     <Compile Include="Acceptance\MappingSpecialCases.cs" />

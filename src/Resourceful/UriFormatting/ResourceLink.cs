@@ -1,4 +1,4 @@
-﻿namespace Resourceful
+﻿namespace Resourceful.UriFormatting
 {
 	public class ResourceLink
 	{
