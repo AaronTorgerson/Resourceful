@@ -35,5 +35,6 @@ namespace Resourceful.Test.Acceptance
 			Assert.That(result._Relationships.Self, Is.EqualTo("/items?name=foo&name=bar"));
 		}
 
+		//Attach to Relationship Link as well
 	}
 }

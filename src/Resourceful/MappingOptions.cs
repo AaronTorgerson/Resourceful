@@ -5,22 +5,22 @@ namespace Resourceful
 {
 	public class MappingOptions
 	{
-		private readonly List<Property> additionalProperties;
+		private readonly List<Property> additionalUriPlaceholderProperties;
 
 		public MappingOptions()
 		{
-			additionalProperties = new List<Property>();
+			additionalUriPlaceholderProperties = new List<Property>();
 		}
 
 		public MappingOptions WithUriReplacement(string name, object value)
 		{
-			additionalProperties.Add(new Property(name, typeof (string), value.ToString()));
+			additionalUriPlaceholderProperties.Add(new Property(name, typeof (string), value.ToString()));
 			return this;
 		}
 
-		public List<Property> GetAditionalProperties()
+		public List<Property> GetAdditionalUriPlaceholderProperties()
 		{
-			return additionalProperties.ToList();
+			return additionalUriPlaceholderProperties.ToList();
 		}
 	}
 }

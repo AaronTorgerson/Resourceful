@@ -46,19 +46,11 @@ namespace Resourceful
 		private static object MapSingleValue(object source, Type sourceType, MappingOptions options)
 		{
 			IDictionary<string, object> dest = new ExpandoObject();
-			ResourceMapping resourceMapping = GetResourceMappingOrNull(sourceType);
-			TypeMapping typeMapping = resourceMapping != null
-				? resourceMapping.TypeMapping
-				: GetOrCreateTypeMapping(sourceType);
+			TypeMapping typeMapping = GetOrCreateTypeMapping(sourceType);
 
-			foreach (var property in typeMapping.GetProperties(source))
+			foreach (var property in typeMapping.GetProperties(source, options))
 			{
 				dest.Add(property.Name, Map(property.Value));
-			}
-
-			if (resourceMapping != null)
-			{
-				dest.Add("_Relationships", resourceMapping.GetLinks(source, options.GetAditionalProperties()));
 			}
 
 			return dest;
@@ -76,13 +68,6 @@ namespace Resourceful
 			return items;
 		}
 
-		private static ResourceMapping GetResourceMappingOrNull(Type sourceType)
-		{
-			return resourceMappings.ContainsKey(sourceType)
-				? resourceMappings[sourceType]
-				: null;
-		}
-
 		private static TypeMapping GetOrCreateTypeMapping(Type type)
 		{
 			TypeMapping mapping;
@@ -95,19 +80,18 @@ namespace Resourceful
 			return mapping;
 		}
 
-		public static ResourceMapping CreateMapping<T>(string hrefUriPattern)
-		{
-			Type resourceType = typeof (T);
-			var typeMapping = new TypeMapping(resourceType);
-			var resourceMapping = new ResourceMapping(typeMapping, hrefUriPattern);
-			resourceMappings[resourceType] = resourceMapping;
-			return resourceMapping;
-		}
-
 		public static void ClearMappings()
 		{
 			resourceMappings.Clear();
 			typeMappings.Clear();
+		}
+
+		public static ResourceMapping CreateMapping<T>(string hrefUriPattern)
+		{
+			Type resourceType = typeof (T);
+			var resourceMapping = new ResourceMapping(resourceType, hrefUriPattern);
+			typeMappings[resourceType] = resourceMapping;
+			return resourceMapping;
 		}
 
 		public static ResourceMapping CreateMapping<T>(string hrefUriPattern, Action<QueryParameterMapperBuilder<T>> mapQueryParams)

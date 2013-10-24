@@ -16,7 +16,7 @@ namespace Resourceful
 			PublicProperties = PropertyInspector.GetProperties(type);
 		}
 
-		public IEnumerable<Property> GetProperties(object source)
+		public virtual IEnumerable<Property> GetProperties(object source, MappingOptions options)
 		{
 			return PublicProperties
 				.Select(p => new Property(p.Name, p.PropertyType, p.GetValue(source)))

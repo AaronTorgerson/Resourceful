@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections;
+using System.Dynamic;
 
 namespace Resourceful.Extensions
 {
@@ -8,13 +9,13 @@ namespace Resourceful.Extensions
 		public static bool IsContainerCollection(this Type t)
 		{
 			return typeof (IEnumerable).IsAssignableFrom(t)
-			       && t != typeof (string);
+			       && t != typeof (string)
+						 && t != typeof(ExpandoObject);
 		}
 
 		public static bool IsNonFrameworkSingleValueType(this Type t)
 		{
 			return !t.IsFrameworkType()
-						 && !t.IsContainerCollection()
 			       && !t.IsPrimitive;
 		}
 
