@@ -32,9 +32,11 @@ namespace Resourceful
 
 		private Property GetLinksProperty(object source, MappingOptions options, IEnumerable<Property> properties)
 		{
-			var links = GetLinks(source, properties.Concat(options.GetAdditionalUriPlaceholderProperties()));
-			var linksProperty = new Property("_Relationships", typeof (object), links);
-			return linksProperty;
+			var linkProperties = properties
+				.Concat(options.GetAdditionalUriPlaceholderProperties())
+				.ToList();
+			var links = GetLinks(source, linkProperties);
+			return new Property("_Relationships", typeof (object), links);
 		}
 
 		private bool IsOmitted(Property property)
@@ -48,9 +50,8 @@ namespace Resourceful
 			return this;
 		}
 
-		private dynamic GetLinks(object source, IEnumerable<Property> properties)
+		private dynamic GetLinks(object source, List<Property> properties)
 		{
-			properties = properties.ToList();
 			var queryParams = queryParamMappers.SelectMany(b => b.BuildQueryParams(source));
 			IDictionary<string, object> links = new ExpandoObject();
 			var selfLink = selfLinkTemplate.GenerateLink(properties, queryParams);
