@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Resourceful.Test
+namespace Resourceful
 {
 	public static class ObjectExtensions
 	{

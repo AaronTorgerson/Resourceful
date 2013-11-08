@@ -42,6 +42,21 @@ namespace Resourceful.Test.Acceptance
 			Assert.That(result.Name, Is.EqualTo("Foo"));
 		}
 
+		[Test]
+		public void AddAPropertyDuringMapping()
+		{
+			ResourceMapper.CreateMapping<Thing>("/things/{Id}");
+
+			dynamic result = new Thing
+			{
+				Id = 1,
+				OtherId = 2,
+				Name = "Foo"
+			}.AsResource(o => o.WithAdditionalProperty("Foo", 42));
+
+			Assert.That(result.Foo, Is.EqualTo(42));
+		}
+
 		private class Thing
 		{
 			public int Id { get; set; }

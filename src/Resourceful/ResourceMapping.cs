@@ -25,7 +25,11 @@ namespace Resourceful
 
 		public override IEnumerable<Property> GetProperties(object source, MappingOptions options)
 		{
-			var properties = base.GetProperties(source, options).ToList();
+			var properties = base
+				.GetProperties(source, options)
+				.Concat(options.GetAdditionalProperties())
+				.ToList();
+
 			properties.Add(GetLinksProperty(source, options, properties));
 			return properties.Where(p => !IsOmitted(p));
 		}
