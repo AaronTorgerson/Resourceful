@@ -30,17 +30,17 @@ namespace Resourceful
 				.Concat(options.GetAdditionalProperties())
 				.ToList();
 
-			properties.Add(GetLinksProperty(source, options, properties));
+			properties.Add(GetRelationshipsProperty(source, options, properties));
 			return properties.Where(p => !IsOmitted(p));
 		}
 
-		private Property GetLinksProperty(object source, MappingOptions options, IEnumerable<Property> properties)
+		private Property GetRelationshipsProperty(object source, MappingOptions options, IEnumerable<Property> properties)
 		{
 			var linkProperties = properties
 				.Concat(options.GetAdditionalUriPlaceholderProperties())
 				.ToList();
-			var links = GetLinks(source, linkProperties);
-			return new Property("_Relationships", typeof (object), links);
+			var rels = GetRelationships(source, linkProperties);
+			return new Property("_Relationships", typeof (object), rels);
 		}
 
 		private bool IsOmitted(Property property)
@@ -48,18 +48,18 @@ namespace Resourceful
 			return propertyNamePatternsToOmit.Any(regex => regex.IsMatch(property.Name));
 		}
 
-		public ResourceMapping AddLink(string relationship, string href)
+		public ResourceMapping AddRelationship(string relationshipName, string href)
 		{
-			linkTemplates.Add(new ResourceLinkTemplate(relationship, href));
+			linkTemplates.Add(new ResourceLinkTemplate(relationshipName, href));
 			return this;
 		}
 
-		private dynamic GetLinks(object source, List<Property> properties)
+		private dynamic GetRelationships(object source, List<Property> properties)
 		{
 			var queryParams = queryParamMappers.SelectMany(b => b.BuildQueryParams(source));
 			IDictionary<string, object> links = new ExpandoObject();
-			var selfLink = selfLinkTemplate.GenerateLink(properties, queryParams);
-			links[selfLink.Rel] = selfLink.Href;
+			var self = selfLinkTemplate.GenerateLink(properties, queryParams);
+			links[self.Rel] = self.Href;
 
 			foreach (var t in linkTemplates)
 			{

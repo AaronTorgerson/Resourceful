@@ -47,12 +47,11 @@ namespace Resourceful.Test.Acceptance
 		{
 			ResourceMapper.CreateMapping<Thing>("/things/{Id}");
 
-			dynamic result = new Thing
-			{
-				Id = 1,
-				OtherId = 2,
-				Name = "Foo"
-			}.AsResource(o => o.WithAdditionalProperty("Foo", 42));
+			dynamic result = new Thing()
+				.AsResource(opt =>
+				{
+					opt.WithAdditionalProperty("Foo", 42);
+				});
 
 			Assert.That(result.Foo, Is.EqualTo(42));
 		}

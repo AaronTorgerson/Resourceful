@@ -34,7 +34,7 @@ namespace Resourceful.Test.Acceptance
 		public void CanAddOtherLinksToMapping()
 		{
 			ResourceMapper.CreateMapping<SimpleType>("/simple/{Id}")
-										.AddLink("OtherThing", "/related/?name={Name}");
+										.AddRelationship("OtherThing", "/related/?name={Name}");
 
 			var result = ResourceMapper.Map(new SimpleType {Name = "Foo", Id = 1});
 
