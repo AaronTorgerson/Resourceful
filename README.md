@@ -63,7 +63,7 @@ Perfect.
     'Name' : 'Foo',
     '_Relationships' : {
         'Self' : '/things/1',
-        'RibbitsWithThisThing' : '/ribbits/?thingId=1
+        'RibbitsWithThisThing' : '/ribbits/?thingId=1'
     }
 }
 ```
