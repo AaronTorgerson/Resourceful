@@ -2,15 +2,15 @@
 <package >
   <metadata>
     <id>Resourceful</id>
-    <version>0.6</version>
+    <version>0.6.1</version>
     <title>Resourceful</title>
     <authors>Aaron Torgerson</authors>
     <owners>Aaron Torgerson</owners>
     <licenseUrl>https://github.com/AaronTorgerson/Resourceful/blob/master/LICENSE</licenseUrl>
     <projectUrl>https://github.com/AaronTorgerson/Resourceful</projectUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
-    <description>A poorly-named library to help you serialize your models with hypermedia links.</description>
+    <description>A poorly-named .NET library to map your API models to dynamic RESTful resource representations.</description>
     <copyright>Copyright 2013</copyright>
-    <tags>REST Hypermedia Mapper</tags>
+    <tags>REST Hypermedia Mapper.NET CSharp</tags>
   </metadata>
 </package>
