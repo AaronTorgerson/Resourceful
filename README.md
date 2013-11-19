@@ -1,7 +1,7 @@
 Resourceful
 ===========
 
-A poorly-named .NET library to map your API models to dynamic RESTful resource representations.
+A poorly-named .NET library to map your API models to RESTful resource representations.
 
 - Add hypermedia links (haters gonna HATEOAS).
 - Perform transformations that obviate the need for view models/dtos.
