@@ -9,7 +9,7 @@
     <licenseUrl>https://github.com/AaronTorgerson/Resourceful/blob/master/LICENSE</licenseUrl>
     <projectUrl>https://github.com/AaronTorgerson/Resourceful</projectUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
-    <description>A poorly-named .NET library to map your API models to dynamic RESTful resource representations.</description>
+    <description>A poorly-named .NET library to map your API models to RESTful resource representations.</description>
     <copyright>Copyright 2013</copyright>
     <tags>REST Hypermedia Mapper.NET CSharp</tags>
   </metadata>

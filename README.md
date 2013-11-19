@@ -1,24 +1,25 @@
 Resourceful
 ===========
 
-A poorly-named .NET library to map your API models to dynamic RESTful resource representations.
+A poorly-named .NET library to map your API models to RESTful resource representations.
 
 - Add hypermedia links (haters gonna HATEOAS).
 - Perform transformations that obviate the need for view models/dtos.
 
+Say you've got a model, like
 ```csharp
-// Say you've got a model, like
 public class Thing
 {
     public int Id { get; set; }
     public string Name { get; set; }
 }
-  
-// Why go to the trouble of making a dto *just* to get hypermedia links? 
-// Use Resourceful to take care of that for you.
+```
+Why go to the trouble of making a dto *just* to get hypermedia links? Use Resourceful to take care of that for you. In your app startup code:
+```csharp
 ResourceMapper.CreateMapping<Thing>("/things/{Id}");
-
-// In your action, map your model to its resource representation.
+```
+In your action, map your model to its resource representation.
+```csharp
 var model = new Thing 
 {
     Id = 1, 
@@ -27,7 +28,7 @@ var model = new Thing
 
 return model.AsResource();
 ```
-And your json just got a little sexier:
+Behold!
 ```javascript
 {
     'Id' : 1,
@@ -42,7 +43,7 @@ Wait a mintue, though... that Id clutters things up now that we have a nice Self
 ResourceMapper.CreateMapping<Thing>("/things/{Id}")
               .OmitProperty("Id");
 ```
-That's better:
+Better.
 ```javascript
 {
     'Name' : 'Foo',
@@ -51,11 +52,11 @@ That's better:
     }
 }
 ```
-Now, how can we find Ribbits that have this Thing?
+Now, how can we find Blerks that have this Thing?
 ```csharp
 ResourceMapper.CreateMapping<Thing>("/things/{Id}")
               .OmitProperty("Id")
-              .AddRelationship("RibbitsWithThisThing", "/ribbits/?thingId={Id}");
+              .AddRelationship("BlerksWithThisThing", "/blerks/?thingId={Id}");
 ```
 Perfect.
 ```javascript
@@ -63,7 +64,7 @@ Perfect.
     'Name' : 'Foo',
     '_Relationships' : {
         'Self' : '/things/1',
-        'RibbitsWithThisThing' : '/ribbits/?thingId=1'
+        'BlerksWithThisThing' : '/blerks/?thingId=1'
     }
 }
 ```
