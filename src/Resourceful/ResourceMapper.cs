@@ -1,15 +1,14 @@
 ﻿using System;
 using System.Collections;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
-using System.Dynamic;
 using Resourceful.Extensions;
 
 namespace Resourceful
 {
 	public class ResourceMapper
 	{
-		private static readonly Dictionary<Type, ResourceMapping> resourceMappings = new Dictionary<Type, ResourceMapping>();
-		private static readonly Dictionary<Type, TypeMapping> typeMappings = new Dictionary<Type, TypeMapping>();
+		private static readonly ConcurrentDictionary<Type, TypeMapping> typeMappings = new ConcurrentDictionary<Type, TypeMapping>();
 
 		public static dynamic Map(object source, Action<MappingOptions> mappingOptions)
 		{
@@ -70,19 +69,11 @@ namespace Resourceful
 
 		private static TypeMapping GetOrCreateTypeMapping(Type type)
 		{
-			TypeMapping mapping;
-			if (!typeMappings.TryGetValue(type, out mapping))
-			{
-				mapping = new TypeMapping(type);
-				typeMappings.Add(type, mapping);
-			}
-
-			return mapping;
+			return typeMappings.GetOrAdd(type, t => new TypeMapping(type));
 		}
 
 		public static void ClearMappings()
 		{
-			resourceMappings.Clear();
 			typeMappings.Clear();
 		}
 
@@ -90,7 +81,7 @@ namespace Resourceful
 		{
 			Type resourceType = typeof (T);
 			var resourceMapping = new ResourceMapping(resourceType, hrefUriPattern);
-			typeMappings[resourceType] = resourceMapping;
+			typeMappings.AddOrUpdate(resourceType, _ => resourceMapping, (_,__) => resourceMapping);
 			return resourceMapping;
 		}
 
