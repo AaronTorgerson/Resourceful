@@ -12,7 +12,7 @@ namespace Resourceful.Test.Acceptance
 
 			var result = ResourceMapper.Map(thing);
 
-			Assert.That(((string)result.Name), Is.Null);
+			Assert.That(((string)result["Name"]), Is.Null);
 		}
 	}
 }

@@ -12,8 +12,8 @@ namespace Resourceful.Test.Acceptance
 
 			var result = ResourceMapper.Map(new SampleTypes.LessSimple {Id = 1, Child = new SampleTypes.Simple {Name = "Foo"}});
 
-			Assert.That(result._Relationships.Self, Is.EqualTo("/complex/1"));
-			Assert.That(result.Child.Name, Is.EqualTo("Foo"));
+			Assert.That(result["_Relationships"]["Self"], Is.EqualTo("/complex/1"));
+			Assert.That(result["Child"]["Name"], Is.EqualTo("Foo"));
 		}
 
 		[Test]
@@ -30,8 +30,8 @@ namespace Resourceful.Test.Acceptance
 
 			var result = ResourceMapper.Map(source);
 
-			Assert.That(result._Relationships.Self, Is.EqualTo("/complex/1"));
-			Assert.That(result.Child._Relationships.Self, Is.EqualTo("/simple/Foo"));
+			Assert.That(result["_Relationships"]["Self"], Is.EqualTo("/complex/1"));
+			Assert.That(result["Child"]["_Relationships"]["Self"], Is.EqualTo("/simple/Foo"));
 		}
 
 		//Dictionary

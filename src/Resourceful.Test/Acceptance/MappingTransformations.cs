@@ -20,8 +20,8 @@ namespace Resourceful.Test.Acceptance
 			}.AsResource();
 
 			Assert.Throws<RuntimeBinderException>(() => { var i = result.OtherId; });
-			Assert.That(result.Id, Is.EqualTo(1));
-			Assert.That(result.Name, Is.EqualTo("Foo"));
+			Assert.That(result["Id"], Is.EqualTo(1));
+			Assert.That(result["Name"], Is.EqualTo("Foo"));
 		}
 
 		[Test]
@@ -39,7 +39,7 @@ namespace Resourceful.Test.Acceptance
 
 			Assert.Throws<RuntimeBinderException>(() => { var i = result.OtherId; });
 			Assert.Throws<RuntimeBinderException>(() => { var i = result.Id; });
-			Assert.That(result.Name, Is.EqualTo("Foo"));
+			Assert.That(result["Name"], Is.EqualTo("Foo"));
 		}
 
 		[Test]
@@ -53,7 +53,7 @@ namespace Resourceful.Test.Acceptance
 					opt.WithAdditionalProperty("Foo", 42);
 				});
 
-			Assert.That(result.Foo, Is.EqualTo(42));
+			Assert.That(result["Foo"], Is.EqualTo(42));
 		}
 
 		private class Thing

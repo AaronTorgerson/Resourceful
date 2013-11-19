@@ -17,7 +17,7 @@ namespace Resourceful.Test.Acceptance
 			var result = ResourceMapper.Map(new SimpleType {Name = "Foo"});
 				
 			Assert.That(result, Is.Not.Null);
-			Assert.That(result.Name, Is.EqualTo("Foo"));
+			Assert.That(result["Name"], Is.EqualTo("Foo"));
 		}
 
 		[Test]
@@ -27,7 +27,7 @@ namespace Resourceful.Test.Acceptance
 
 			var result = ResourceMapper.Map(new SimpleType {Name = "Me"});
 
-			Assert.That(result._Relationships.Self, Is.EqualTo("/simple/Me"));
+			Assert.That(result["_Relationships"]["Self"], Is.EqualTo("/simple/Me"));
 		}
 
 		[Test]
@@ -38,7 +38,7 @@ namespace Resourceful.Test.Acceptance
 
 			var result = ResourceMapper.Map(new SimpleType {Name = "Foo", Id = 1});
 
-			Assert.That(result._Relationships.OtherThing, Is.EqualTo("/related/?name=Foo"));
+			Assert.That(result["_Relationships"]["OtherThing"], Is.EqualTo("/related/?name=Foo"));
 		}
 	}
 

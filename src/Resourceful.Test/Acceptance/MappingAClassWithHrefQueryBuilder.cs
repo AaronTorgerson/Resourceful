@@ -32,7 +32,7 @@ namespace Resourceful.Test.Acceptance
 
 			var result = ResourceMapper.Map(input);
 
-			Assert.That(result._Relationships.Self, Is.EqualTo("/items?name=foo&name=bar"));
+			Assert.That(result["_Relationships"]["Self"], Is.EqualTo("/items?name=foo&name=bar"));
 		}
 
 		//Attach to Relationship Link as well

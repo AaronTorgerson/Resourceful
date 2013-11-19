@@ -45,7 +45,7 @@ namespace Resourceful
 
 		private static object MapSingleValue(object source, Type sourceType, MappingOptions options)
 		{
-			IDictionary<string, object> dest = new ExpandoObject();
+			IDictionary<string, object> dest = new Dictionary<string, object>();
 			TypeMapping typeMapping = GetOrCreateTypeMapping(sourceType);
 
 			foreach (var property in typeMapping.GetProperties(source, options))

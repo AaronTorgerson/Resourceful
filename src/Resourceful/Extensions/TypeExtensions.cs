@@ -10,13 +10,15 @@ namespace Resourceful.Extensions
 		{
 			return typeof (IEnumerable).IsAssignableFrom(t)
 			       && t != typeof (string)
-						 && t != typeof(ExpandoObject);
+					 && t != typeof(Relationships)
+					 && t != typeof(ExpandoObject);
 		}
 
 		public static bool IsNonFrameworkSingleValueType(this Type t)
 		{
 			return !t.IsFrameworkType()
-			       && !t.IsPrimitive;
+			       && !t.IsPrimitive
+					 && t != typeof(Relationships);
 		}
 
 		public static bool IsFrameworkType(this Type t)

@@ -13,7 +13,7 @@ namespace Resourceful.Test.Acceptance
 			var thing = new SampleTypes.Simple {Name = "foo"};
 			var result = ResourceMapper.Map(thing, opt => opt.WithUriReplacement("ExternalName", "baz"));
 
-			Assert.That(result._Relationships.Self, Is.EqualTo("/things/baz/foo"));
+			Assert.That(result["_Relationships"]["Self"], Is.EqualTo("/things/baz/foo"));
 		}
 	}
 }

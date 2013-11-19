@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Dynamic;
 using System.Linq;
+using System.Runtime.ConstrainedExecution;
 using System.Text.RegularExpressions;
 using Resourceful.UriFormatting;
 
@@ -57,7 +58,7 @@ namespace Resourceful
 		private dynamic GetRelationships(object source, List<Property> properties)
 		{
 			var queryParams = queryParamMappers.SelectMany(b => b.BuildQueryParams(source));
-			IDictionary<string, object> links = new ExpandoObject();
+			IDictionary<string, object> links = new Relationships();
 			var self = selfLinkTemplate.GenerateLink(properties, queryParams);
 			links[self.Rel] = self.Href;
 
