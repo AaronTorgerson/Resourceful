@@ -1,26 +1,28 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Reflection;
+using FastMember;
 
 namespace Resourceful
 {
 	public class TypeMapping
 	{
+		private readonly TypeAccessor accessor;
+		private readonly MemberSet members;
 		public Type Type { get; set; }
-		public PropertyInfo[] PublicProperties { get; set; }
 
 		public TypeMapping(Type type)
 		{
 			Type = type;
-			PublicProperties = PropertyInspector.GetProperties(type);
+			accessor = TypeAccessor.Create(Type);
+			members = accessor.GetMembers();
 		}
 
 		public virtual IEnumerable<Property> GetProperties(object source, MappingOptions options)
 		{
-			return PublicProperties
-				.Select(p => new Property(p.Name, p.PropertyType, p.GetValue(source)))
-				.ToList();
+			foreach (var m in members)
+			{
+				yield return new Property(m.Name, m.Type, accessor[source, m.Name]);	
+			}
 		}
 	}
 }
